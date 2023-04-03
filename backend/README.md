@@ -1,4 +1,11 @@
 # backend
+eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI4MjY2OTYwOS0zNGI2LTRiYjAtYmM4OS00NGU5NzBlZjk4MTEifQ.eyJleHAiOjE2ODAzMDE3ODksImlhdCI6MTY4MDIxNTM4OSwianRpIjoiMDE0NDNmZWEtMmIyYS00OTAwLTg4NzQtNmQ1MjBkOTU3MDAxIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDkwL3JlYWxtcy9tYXN0ZXIiLCJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwOTAvcmVhbG1zL21hc3RlciIsInR5cCI6IkluaXRpYWxBY2Nlc3NUb2tlbiJ9.48IC8gBlNW7bd9O-hzbuM5K7P4Z_wjdklq6rGd589d0
+
+# more info to improve keycloack
+https://www.youtube.com/watch?v=_5a_r7iBC6Q&ab_channel=Tekgainers
+https://www.youtube.com/watch?v=FyVHNJNriUQ&ab_channel=VoxxedDaysLuxembourg
+https://www.youtube.com/watch?v=tWHdkpVagXA&t=512s&ab_channel=Devoxx
+Open a Dev UI available at /q/dev and click on a Provider: Keycloak link in an OpenID Connect Dev UI card. for testing
 
 # Best Practices
 

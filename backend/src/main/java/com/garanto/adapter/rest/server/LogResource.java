@@ -31,7 +31,7 @@ public class LogResource {
     }
 
     @GET
-    //@RolesAllowed({Role.SUPER_ADMIN}) TODO add role!
+    @RolesAllowed("admin")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
     @Transactional
     public Response logs() {

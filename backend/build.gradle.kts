@@ -54,6 +54,10 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.26")
     annotationProcessor("org.projectlombok:lombok:1.18.26")
 
+    // keycloak oidc
+    implementation("io.quarkus:quarkus-oidc")
+    // implementation("io.quarkus:quarkus-keycloak-authorization")
+
     //test dependencies
     testImplementation("io.quarkus:quarkus-junit5")
     testImplementation("io.quarkus:quarkus-junit5-mockito")

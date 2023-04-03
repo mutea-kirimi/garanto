@@ -2,8 +2,9 @@ package com.garanto.adapter.rest.server;
 
 import com.garanto.adapter.rest.dtos.VersionDto;
 import com.garanto.application.logging.VersionService;
+import io.quarkus.security.identity.SecurityIdentity;
 
-import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -17,15 +18,18 @@ import javax.ws.rs.core.MediaType;
 public class VersionResource {
 
     private final VersionService versionService;
+    private final SecurityIdentity securityIdentity;
 
     @Inject
-    public VersionResource(VersionService versionService) {
+    public VersionResource(VersionService versionService, SecurityIdentity securityIdentity) {
         this.versionService = versionService;
+        this.securityIdentity = securityIdentity;
     }
 
     @GET
-    @PermitAll
+    @RolesAllowed("user")
     public VersionDto getVersion() {
+        System.out.println(securityIdentity.getPrincipal().toString());
         var buildNumber = versionService.getBuildNumber();
         var buildRevision = versionService.getBuildRevision();
         var releaseName = versionService.getReleaseName();

@@ -1,13 +1,53 @@
 version: "3.9"
 
 services:
-  postgres-db:
-    container_name: garanto-container
+  garanto_keycloak_db:
+    container_name: garanto-keycloak-db-container
+    image: postgres:15.2-alpine
+    environment:
+      POSTGRES_DB: garanto_keycloak_auth
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5003:5432
+    restart: on-failure
+    networks:
+      - garanto_network
+    healthcheck:
+      test: "exit 0"
+
+  keycloak_garanto:
+    image: quay.io/keycloak/keycloak
+    command: start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://garanto_keycloak_db:5432/garanto_keycloak_auth
+      KC_DB_USERNAME: user
+      KC_DB_PASSWORD: password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+    ports:
+      - 8090:8080
+    depends_on:
+      - garanto_db
+    networks:
+      - garanto_network
+
+  garanto_db:
+    container_name: garanto-app-db-acontainer
     image: postgres:15.2-alpine
     environment:
       POSTGRES_DB: garanto
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:
-      - 5003:5432
+      - 5004:5432
     restart: on-failure
+    healthcheck:
+      test: "exit 0"
+    networks:
+      - garanto_network
+
+networks:
+  garanto_network:
+    driver: bridge
