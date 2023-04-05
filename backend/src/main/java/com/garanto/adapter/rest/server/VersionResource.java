@@ -3,6 +3,7 @@ package com.garanto.adapter.rest.server;
 import com.garanto.adapter.rest.dtos.VersionDto;
 import com.garanto.application.logging.VersionService;
 import io.quarkus.security.identity.SecurityIdentity;
+import io.smallrye.jwt.auth.principal.DefaultJWTCallerPrincipal;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
@@ -29,7 +30,15 @@ public class VersionResource {
     @GET
     @RolesAllowed("user")
     public VersionDto getVersion() {
-        System.out.println(securityIdentity.getPrincipal().toString());
+        System.out.println(securityIdentity.getPrincipal());
+        var principal = (DefaultJWTCallerPrincipal) securityIdentity.getPrincipal();
+        System.out.println(principal.getClaimNames());
+        System.out.println(principal.claim("given_name").get());
+        System.out.println(principal.claim("family_name").get());
+
+
+
+
         var buildNumber = versionService.getBuildNumber();
         var buildRevision = versionService.getBuildRevision();
         var releaseName = versionService.getReleaseName();
