@@ -1,13 +1,9 @@
 import { useSnackbar } from 'notistack'
-import { useNavigate } from 'react-router-dom'
-
 import React, { createContext, ReactNode } from 'react'
-
-
 import {AxiosResponse} from "axios";
-import {Api, FailureReason, MAX_FILE_SIZE_IN_BYTES, newApiType} from '../api';
+import {Api, FailureReason, MAX_FILE_SIZE_IN_BYTES, newApiType} from './api';
+import {useKeycloak} from "@react-keycloak/web";
 
-// import { routeForName } from '../../views/Routes'
 
 export const ApiContext = createContext<newApiType | null>(null)
 
@@ -20,9 +16,10 @@ interface ApiProviderProps {
 
 const ApiProvider = ({ children }: ApiProviderProps): JSX.Element => {
     const { enqueueSnackbar } = useSnackbar()
-    const navigate = useNavigate()
+    const { keycloak } = useKeycloak();
 
     const api = Api(
+        keycloak?.token,
         (response : AxiosResponse) => {
             const silent = silentEndpoints.some((endpoint) => {
                 return response?.config?.url?.includes(endpoint)

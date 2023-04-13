@@ -7,8 +7,10 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider'
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns'
 import Keycloak from "keycloak-js";
 import {ReactKeycloakProvider} from '@react-keycloak/web'
-import {AuthClientError, AuthClientEvent, AuthClientTokens} from "@react-keycloak/core/lib/types";
 import Home from "./views/Home";
+import ApiProvider from "./providers/api/ApiContext";
+import {LoadingOverlay} from "./components/LoadingOverlay";
+import {BrowserRouter, Link} from "react-router-dom";
 
 const theme = createTheme({
     palette: {
@@ -27,46 +29,36 @@ const keycloak = new Keycloak({
     clientId: 'garanto-frontend',
 });
 
-const initOptions = { onLoad: "login-required"}
-
-const eventLogger = (eventType: AuthClientEvent, error?: AuthClientError) => {
-    console.log(eventType)
-    console.log(error)
-}
-
-const tokenLogger = (tokens: AuthClientTokens) => {
-    console.log(tokens)
-}
-
 function App() {
     return (
-        <ReactKeycloakProvider
-            authClient={keycloak}
-            initOptions={initOptions}
-            onEvent={eventLogger}
-            autoRefreshToken
-            onTokens={tokenLogger}
+            <ReactKeycloakProvider
+                authClient={keycloak}
+                autoRefreshToken
+                LoadingComponent={<LoadingOverlay isLoading={true}/>}
+            >
+                <SnackbarProvider
+                    maxSnack={3}
+                    anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+                    hideIconVariant={false}
+                    preventDuplicate
+                >
+                    <ApiProvider>
+                        <StyledEngineProvider injectFirst>
+                            <ThemeProvider theme={theme}>
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                    <CssBaseline>
 
-        >
-            <StyledEngineProvider injectFirst>
-                <ThemeProvider theme={theme}>
-                    <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <CssBaseline>
 
-                            <SnackbarProvider
-                                maxSnack={3}
-                                anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                                hideIconVariant={false}
-                                preventDuplicate
-                            >
-                                <Home></Home>
-                            </SnackbarProvider>
+                                        <Home></Home>
 
-                        </CssBaseline>
-                    </LocalizationProvider>
-                </ThemeProvider>
-            </StyledEngineProvider>
-        </ReactKeycloakProvider>
+
+                                    </CssBaseline>
+                                </LocalizationProvider>
+                            </ThemeProvider>
+                        </StyledEngineProvider>
+                    </ApiProvider>
+                </SnackbarProvider>
+            </ReactKeycloakProvider>
     );
 }
 

@@ -1,4 +1,6 @@
 export interface UserDto {
-    name: string
+    userName: string
     roles: string[]
+    givenName: string
+    familyName: string
 }
