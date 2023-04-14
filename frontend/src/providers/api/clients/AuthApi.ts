@@ -1,4 +1,4 @@
-import {UserDto} from '../dto';
+import {UserDto} from '../../../dataClasses/dto';
 import {api_client} from "../ApiClient";
 
 

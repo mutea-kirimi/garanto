@@ -7,10 +7,11 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider'
 import {AdapterDateFns} from '@mui/x-date-pickers/AdapterDateFns'
 import Keycloak from "keycloak-js";
 import {ReactKeycloakProvider} from '@react-keycloak/web'
-import Home from "./views/Home";
 import ApiProvider from "./providers/api/ApiContext";
 import {LoadingOverlay} from "./components/LoadingOverlay";
-import {BrowserRouter, Link} from "react-router-dom";
+import UserStoreProvider from "./providers/user/UserStoreContext";
+import Routing from "./components/Routing";
+import { BrowserRouter } from 'react-router-dom'
 
 const theme = createTheme({
     palette: {
@@ -31,11 +32,12 @@ const keycloak = new Keycloak({
 
 function App() {
     return (
-            <ReactKeycloakProvider
-                authClient={keycloak}
-                autoRefreshToken
-                LoadingComponent={<LoadingOverlay isLoading={true}/>}
-            >
+        <ReactKeycloakProvider
+            authClient={keycloak}
+            autoRefreshToken
+            LoadingComponent={<LoadingOverlay isLoading={true}/>}
+        >
+            <BrowserRouter>
                 <SnackbarProvider
                     maxSnack={3}
                     anchorOrigin={{vertical: 'top', horizontal: 'center'}}
@@ -43,23 +45,25 @@ function App() {
                     preventDuplicate
                 >
                     <ApiProvider>
-                        <StyledEngineProvider injectFirst>
-                            <ThemeProvider theme={theme}>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <CssBaseline>
+                        <UserStoreProvider>
+                            <StyledEngineProvider injectFirst>
+                                <ThemeProvider theme={theme}>
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <CssBaseline>
 
+                                            <Routing/>
 
-                                        <Home></Home>
-
-
-                                    </CssBaseline>
-                                </LocalizationProvider>
-                            </ThemeProvider>
-                        </StyledEngineProvider>
+                                        </CssBaseline>
+                                    </LocalizationProvider>
+                                </ThemeProvider>
+                            </StyledEngineProvider>
+                        </UserStoreProvider>
                     </ApiProvider>
                 </SnackbarProvider>
-            </ReactKeycloakProvider>
-    );
+            </BrowserRouter>
+        </ReactKeycloakProvider>
+    )
+        ;
 }
 
 export default App;

@@ -1,81 +1,15 @@
-import {useKeycloak} from "@react-keycloak/web";
-import {Button, Grid} from "@mui/material";
-import {useApi} from "../hooks/useApi";
-import {useEffect, useState} from "react";
-import {UserDto} from "../providers/api/dto";
-import {LoadingOverlay} from "../components/LoadingOverlay";
+import {Grid} from "@mui/material";
 
 const Home = (): JSX.Element => {
-    const {keycloak, initialized} = useKeycloak();
-    const api = useApi();
-    const [user, setUser] = useState<UserDto>()
-    const [isLoading, setIsLoading] = useState(false)
-
-    useEffect(() => {
-        if (keycloak.authenticated && initialized && !user) {
-            setIsLoading(true)
-            api.me().then((user) => {
-                console.log(user)
-                setUser(user)
-            }).catch((error) => {
-                console.log(error)
-            }).finally(() => {
-                setIsLoading(false)
-            })
-        }
-
-    }, [keycloak.authenticated, initialized, api, !user])
-
-
-    const handleLogout = () => {
-        keycloak.logout();
-    };
-
-    const handleLogin = () => {
-        keycloak.login()
-    };
-
-    const handleRegister = () => {
-        keycloak.register();
-    };
-
-    const log = () => {
-        console.log("isAuthenticated :" + keycloak.authenticated)
-        console.log("loginRequired :" + keycloak.loginRequired)
-        console.log("token : " + keycloak.token)
-    }
 
     return (
-        <Grid container>
-            {keycloak.authenticated ?
-                <>
-                    <Grid sm={3} item>
-                        <Button variant={"contained"} onClick={handleLogout}>Logout</Button>
-                    </Grid>
-                    <Grid sm={6} item>
-                        {user?.userName}
-                    </Grid>
-                </>
-                :
-                <Grid sm={3} item>
-                    <Button variant={"contained"} onClick={handleLogin}>Login</Button>
-                </Grid>
-            }
 
-            {!keycloak.authenticated &&
-            <Grid sm={3} item>
-                <Button variant={"contained"} onClick={handleRegister}>Register</Button>
+            <Grid sm={12} item>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus mollis massa non diam sodales luctus. Vestibulum ultricies orci et nisl cursus suscipit. Quisque non vehicula elit. Nunc elementum elementum nulla eu vehicula. Integer at enim malesuada, ullamcorper nunc gravida, varius ipsum. Fusce quam massa, mollis eget erat ac, efficitur ultricies magna. Aliquam faucibus quam quis eros semper tincidunt. Integer sagittis congue ligula, id faucibus erat aliquam id. Proin condimentum leo ac commodo tempor. Duis nisi elit, consectetur a condimentum ac, aliquet sed diam.
+
+                Donec porta augue velit, eu ornare turpis egestas at. Sed bibendum odio finibus, blandit neque nec, dapibus metus. Morbi porttitor feugiat dolor eget sagittis. Ut sollicitudin sapien eu ex lobortis, ut dapibus sapien facilisis. Nam orci ipsum, egestas sed libero quis, iaculis maximus urna. Cras neque nibh, vestibulum ac nisi ut, aliquet ullamcorper urna. Sed ut sapien id lorem tincidunt ullamcorper. Aenean in lacinia dui, vel luctus massa. Sed in justo pretium, rutrum ante eget, volutpat magna. Vivamus egestas urna ut pretium condimentum. Mauris suscipit ullamcorper metus sit amet ullamcorper. Donec elit tortor, euismod et mollis sed, blandit et ante. Curabitur iaculis tempus nisl, dignissim dapibus nisi porttitor vitae. Aliquam metus erat, placerat vitae justo quis, rutrum bibendum quam. Etiam ullamcorper in massa ut malesuada.
             </Grid>
-            }
 
-            {keycloak.authenticated &&
-            <Grid sm={3} item>
-                <Button variant={"outlined"} onClick={log}>print vitals</Button>
-            </Grid>
-            }
-
-            <LoadingOverlay isLoading={isLoading}/>
-        </Grid>
     )
 }
 
