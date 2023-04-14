@@ -18,6 +18,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
+    "pretty": true,
+    "noImplicitAny": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "suppressImplicitAnyIndexErrors": true,
     "jsx": "react-jsx"
   },
   "include": [
